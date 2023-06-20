@@ -179,12 +179,12 @@
             
             <span class="tag">
                 
-                <a href="/tags/C/" style="color: #ff7d73">C</a>
+                <a href="/tags/C/" style="color: #03a9f4">C</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/c/" style="color: #ff7d73">c++</a>
+                <a href="/tags/c/" style="color: #00a596">c++</a>
             </span>
             
         </span>
@@ -192,7 +192,128 @@
     </div>
     
     <div class="content" v-pre>
-        
+        <p>此篇主要是複習日誌</p>
+<span id="more"></span>
+
+
+<h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0.前言"></a>0.前言</h1><p>這篇主要是把我程式語言所學到的c&#x2F;c++常用指令給寫在blog上,方便我做複習或整理,如果我在內容上出現問題也可以幫我修正,謝謝</p>
+<blockquote>
+<p>註:本次內容皆是採用c語言以及IDE&#x3D;clion的內容下去實作的,如果對C語言或是CLion有興趣的可以自行看<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=MY_Z90Tj6is">影片</a>學如何安裝及操作</p>
+</blockquote>
+<h1 id="1-變數型別"><a href="#1-變數型別" class="headerlink" title="1.變數型別"></a>1.變數型別</h1><p>在c語言中,我們首先必須先了解我們處理的單一資料或者單一變數他會是哪種形式的,以下幾種會是比較常見的形式</p>
+<pre><code class="c">short a = 3; //短整數型態
+int a = 3;  //整數型態
+long h = 3;  //長整數型態
+float a = 3.0  //浮點數型態
+double a = 3.0  //精確度高浮點數型態
+char a = &#39;c&#39;  //字元型態
+char a[20] = &quot;swimchicken&quot;  //字串型態
+
+//其中要特別注意int&lt;=&gt;long以及float&lt;=&gt;double的差別,在於位數的不同
+</code></pre>
+<p>還有其中的無號數型態及布林型態,都是在做特定操作或進階操作才需要用到的</p>
+<pre><code class="c">unsigned int a = 3;  //無號數型態
+bool a = true  //布林型態
+</code></pre>
+<p><strong>相關的操作會在後續的計算或小型實作中會提到</strong></p>
+<h1 id="2-Shell-I-x2F-O"><a href="#2-Shell-I-x2F-O" class="headerlink" title="2.Shell I&#x2F;O"></a>2.Shell I&#x2F;O</h1><p>在我們通常寫C語言中,總是會希望由使用者給測資並且回傳Result的正確解答,那我們就得先去了解每一個變數值所要求的輸出跟輸入格式該怎麼做,且我會在細講我們比較常用的function()</p>
+<pre><code class="c">//字串傳入
+scanf(&quot;%s&quot;,a);
+//字串傳出
+printf(&quot;%s&quot;,a);
+
+//注意一點由於在scanf中若讀取\0(相當於終止符),他就會停止讀取,例如
+scanf(&quot;%s&quot;,a); //這裡我若輸入&quot;swim chicken&quot;
+printf(&quot;%s&quot;,a);  //讀出來會是&quot;swim&quot;
+
+//若要解決,有一個function是
+gets(a);
+printf(&quot;%s&quot;,a); //讀出來會是&quot;swim chicken&quot;
+</code></pre>
+<pre><code class="c">//整數傳入
+scanf(&quot;%d&quot;,&amp;a);
+//整數傳出
+printf(&quot;%d&quot;,a);
+</code></pre>
+<pre><code class="c">//浮點數傳入
+scanf(&quot;%f&quot;,&amp;a);
+//浮點數傳出
+printf(&quot;%f&quot;,a);
+</code></pre>
+<pre><code class="c">//長整數傳入
+scanf(&quot;%ld&quot;,&amp;a);
+//長整數傳出
+printf(&quot;%ld&quot;,a);
+</code></pre>
+<h1 id="3-編成習慣"><a href="#3-編成習慣" class="headerlink" title="3.編成習慣"></a>3.編成習慣</h1><p>這個區塊我認為是最重要的,把它放到最後面,我會一一解釋為何最重要以及如何改善,看不懂程式碼也沒關係,當成一個概念就行</p>
+<ul>
+<li>空間感</li>
+</ul>
+<pre><code class="c">
+good
+int a = 3;
+
+//對比
+
+bed
+int a=3;
+</code></pre>
+<ul>
+<li>易讀性</li>
+</ul>
+<pre><code class="c">good
+int count(int a,int b)&#123;
+    return (a + b) * b;
+&#125;
+
+int main()&#123;
+    int a,b;
+    printf(&quot;%d&quot;,count(a,b));
+&#125;
+
+//對比
+
+bad
+int main()&#123;
+    int a,b;
+    int plus = a + b;
+    int ans = plus * b;
+    printf(&quot;%d&quot;,ans);
+&#125;
+</code></pre>
+<ul>
+<li>命名正確</li>
+</ul>
+<pre><code class="c">good
+int row = 3;
+int col = 4;
+int array[row][col] = &#123;0&#125;;
+
+//對比
+
+bad
+int a = 3;
+int b = 4;
+int array[a][b] = &#123;0&#125;;
+</code></pre>
+<ul>
+<li>註解</li>
+</ul>
+<pre><code class="c">good
+int a = 3;
+int b = 4;
+
+int ans = a + b;  //加法
+
+//對比
+
+bad
+int a = 3;
+int b = 4;
+
+int ans = a + b;
+</code></pre>
+
     </div>
     
     
