@@ -179,27 +179,27 @@
             
             <span class="tag">
                 
-                <a href="/tags/HTML/" style="color: #ffa2c4">HTML</a>
+                <a href="/tags/HTML/" style="color: #ff7d73">HTML</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/CSS/" style="color: #00bcd4">CSS</a>
+                <a href="/tags/CSS/" style="color: #00a596">CSS</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/JS/" style="color: #ffa2c4">JS</a>
+                <a href="/tags/JS/" style="color: #03a9f4">JS</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Django/" style="color: #ff7d73">Django</a>
+                <a href="/tags/Django/" style="color: #03a9f4">Django</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/Ajax/" style="color: #00bcd4">Ajax</a>
+                <a href="/tags/Ajax/" style="color: #00a596">Ajax</a>
             </span>
             
         </span>
@@ -207,7 +207,97 @@
     </div>
     
     <div class="content" v-pre>
-        
+        <p>使用<code>Django</code>如何寫登入登出</p>
+<span id="more"></span>
+
+<h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0.前言"></a>0.前言</h1><p>這篇只會著重在我覺得比較重要的區塊,其餘的部分我每有特別著重描寫,有興趣可以參照<a target="_blank" rel="noopener" href="https://github.com/swimchicken/django_website">github</a></p>
+<blockquote>
+<p>註:需要使用到python以及python library&#x3D;&gt;Django,有需要的朋友也可以直接安裝IDE&#x3D;&gt;pycharm來去做設定調整</p>
+</blockquote>
+<h1 id="1-creat-data"><a href="#1-creat-data" class="headerlink" title="1.creat data"></a>1.creat data</h1><p>一開始先建立專案時我們會先在shell打以下指令</p>
+<pre><code class="shell">$ django-admin startproject projectname  
+</code></pre>
+<p>這樣就會建立一個標準的Django的架構</p>
+<p><img src="https://miro.medium.com/v2/resize:fit:640/format:webp/0*7C7POqWkWX4ThOBK.png" alt="avatar"></p>
+<p>但我們還缺少一樣東西,那就是app,用來存放與資料庫互動的地方(ORM),所以同樣我們要在shell上再輸入</p>
+<pre><code class="shell">$ py manage.py startapp appname   
+</code></pre>
+<p>這樣架構的部分就完成了</p>
+<h1 id="2-login-and-logout"><a href="#2-login-and-logout" class="headerlink" title="2.login and logout"></a>2.login and logout</h1><p>在我們建立完專案後,我們要先了解有兩個在Django下蠻常使用的指令</p>
+<ul>
+<li>資料庫遷移</li>
+</ul>
+<pre><code class="shell">$ py manage.py makemigrations DBname
+</code></pre>
+<ul>
+<li>更新app變動</li>
+</ul>
+<pre><code class="shell">$ python manage.py migrate modelname  
+</code></pre>
+<p>這兩串指令用於在資料庫的建立及更新,其中當你處理完後,其實你就會發現Django本身就有幫你處理好user的資料表了(空)</p>
+<p>接下來就是把資料從html-&gt;django-&gt;DB-&gt;view(操作)</p>
+<pre><code class="python">
+#以下我會簡單寫,有興趣的可以看我下方的影片
+
+
+def LogoutPage(request):  # 登出頁面
+    logout(request)
+    return redirect(&#39;login&#39;)
+
+
+def SigupPage(request):  # 創立帳號頁面
+    if request.method == &quot;POST&quot;:  # 當post後引入form資料
+        uname = request.POST.get(&#39;username&#39;) 
+        ename = request.POST.get(&#39;email&#39;)
+        p1 = request.POST.get(&#39;password&#39;)
+        p2 = request.POST.get(&#39;re_password&#39;)
+        if p1 != p2:  #錯誤判定
+            wrong_password = True
+            return render(request, &quot;signup.html&quot;, &#123;&#39;wrong_password&#39;: wrong_password&#125;)  #錯誤回傳
+        else:  #正確儲存資料表
+            my_user = User.objects.create_user(uname, ename, p1)
+            my_user.save()
+            return redirect(&#39;login&#39;)
+
+    return render(request, &quot;signup.html&quot;)
+
+
+def LoginPage(request):  # 登入頁面
+    if request.method == &#39;POST&#39;:  # post-&gt;資料提取
+        username = request.POST.get(&#39;username&#39;)
+        pass1 = request.POST.get(&#39;password&#39;)
+        user = authenticate(request, username=username, password=pass1)  # 資料驗證
+
+        if user is not None:  # 進入主要頁面
+            login(request, user)
+            return redirect(&#39;main&#39;)
+        else:  # 退出
+            wrong_password = True
+            return render(request, &quot;login.html&quot;, &#123;&#39;wrong_password&#39;: wrong_password&#125;)
+    return render(request, &quot;login.html&quot;)
+</code></pre>
+<pre><code class="html">
+&lt;!-- login --&gt;
+
+&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+    &#123;% csrf_token %&#125;
+    &lt;input type=&quot;text&quot; placeholder=&quot;Username&quot; name=&quot;username&quot; id=&quot;username&quot;&gt;
+    &lt;input type=&quot;password&quot; placeholder=&quot;Password&quot; name=&quot;password&quot; id=&quot;password&quot;&gt;
+    &lt;div class=&quot;recover&quot;&gt;
+        &lt;a href=&quot;#&quot;&gt;Forgot password?&lt;/a&gt;
+    &lt;/div&gt;
+    &#123;% if wrong_password %&#125;
+        <p style="color: red;">Username or Password is incorrect</p>
+    &#123;% endif %&#125;
+    &lt;button&gt;Login&lt;/button&gt;
+    &lt;div class=&quot;member&quot;&gt;
+        沒有帳號?&lt;a href=&quot;&#123;% url 'signup' %&#125;&quot;&gt;Register&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+</code></pre>
+<p>至於資料表可以從admin或是自己另外接mysql去做,蠻簡單的這裡就不寫了,有興趣的話我之後會再另外寫一篇接Mysql</p>
+<p>More info: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=cu-1EdSMzK0&t=2373s">video1</a><br>More info: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=CTrVDi3tt8o">video2</a></p>
+
     </div>
     
     
