@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>diffusion model | S.C</title>
+        <title>國科會week2 | S.C</title>
         <meta name="author" content="swimchicken" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
@@ -152,22 +152,22 @@
                 <div id="main" v-show="!loading">
                     <div class="article">
     <div>
-        <h1>diffusion model</h1>
+        <h1>國科會week2</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2023/6/19
+            2024/10/17
         </span>
         
         <span class="category">
-            <a href="/categories/Demo/">
+            <a href="/categories/%E5%B0%88%E6%A1%88/">
                 <span class="icon">
                     <i class="fa-solid fa-bookmark fa-fw"></i>
                 </span>
-                Demo
+                專案
             </a>
         </span>
         
@@ -179,17 +179,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E7%94%9F%E6%88%90%E7%B6%B2%E8%B7%AF/" style="color: #00a596">生成網路</a>
+                <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7/" style="color: #03a9f4">人工智慧</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%BD%B1%E5%83%8F%E8%99%95%E7%90%86/" style="color: #03a9f4">影像處理</a>
+                <a href="/tags/%E7%89%A9%E4%BB%B6%E5%81%B5%E6%B8%AC/" style="color: #ffa2c4">物件偵測</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7/" style="color: #ff7d73">人工智慧</a>
+                <a href="/tags/%E8%BB%8C%E8%B7%A1%E8%BF%BD%E8%B9%A4/" style="color: #00bcd4">軌跡追蹤</a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/%E4%BA%A4%E9%80%9A%E7%B3%BB%E7%B5%B1/" style="color: #ff7d73">交通系統</a>
             </span>
             
         </span>
@@ -197,7 +202,117 @@
     </div>
     
     <div class="content" v-pre>
-        
+        <p>本次主要記錄低薪勞工的第二禮拜內容,這邊感謝<a target="_blank" rel="noopener" href="https://github.com/coolmark12">小夥伴</a>幫助以及<a href="mailto:kiwiw.a.l20021221@gmail.com">師傅</a>的精美excel贊助</p>
+<span id="more"></span>
+
+
+
+<h1 id="1-模型目前進度"><a href="#1-模型目前進度" class="headerlink" title="1.模型目前進度"></a>1.模型目前進度</h1><p>首先我們先採用rt-detr的原生模型去做使用,其中配置檔<code>RT-DETRv2-M_dsp.yml</code>以及模型資料集<code>coco_dataset</code>如下</p>
+<pre><code class="yml">
+__include__: [
+  &#39;../dataset/coco_detection.yml&#39;,
+  &#39;../runtime.yml&#39;,
+  &#39;./include/dataloader.yml&#39;,
+  &#39;./include/optimizer.yml&#39;,
+  &#39;./include/rtdetrv2_r50vd.yml&#39;,
+]
+
+output_dir: ./output/rtdetrv2_r50vd_m_dsp_3x_coco
+tuning: https://github.com/lyuwenyu/storage/releases/download/v0.1/rtdetrv2_r50vd_m_7x_coco_ema.pth
+
+HybridEncoder:
+  expansion: 0.5
+
+
+RTDETRTransformerv2:
+  eval_idx: 2 # use 3th decoder layer to eval
+  cross_attn_method: discrete
+
+
+epoches: 36
+
+optimizer:
+  type: AdamW
+  params: 
+    - 
+      params: &#39;^(?=.*backbone)(?!.*norm).*$&#39;
+      lr: 0.00001
+    - 
+      params: &#39;^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$&#39;
+      weight_decay: 0.
+
+  lr: 0.0001
+  betas: [0.9, 0.999]
+  weight_decay: 0.0001
+
+
+train_dataloader: 
+  dataset: 
+    transforms:
+      policy:
+        epoch: 33
+  collate_fn:
+    stop_epoch: 33
+</code></pre>
+<p>影像資料庫是採用經典<code>2017_COCO_dataset</code>,並且附上他在COCO資料集中與YOLO的比較</p>
+<p><a target="_blank" rel="noopener" href="https://cocodataset.org/#home">coco2017資料集</a></p>
+<p><img src="https://i.imgur.com/ERKpFWm.png" alt="模型比對"></p>
+<p>最後也附上幾張台中市的cctv圖像跟台北市的cctv街景影片比較</p>
+<p>最後在我們資料訓練當中所使用的配置檔<code>rtdetrv2_r50vd_6x_coco.yml</code>以及模型整個訓練的過程</p>
+<p><strong>附註-此模型訓練目前採用台中市為主,後面會陸續更換成我們設計內容</strong></p>
+<pre><code class="yml">__include__: [
+  &#39;../dataset/coco_detection.yml&#39;,
+  &#39;../runtime.yml&#39;,
+  &#39;./include/dataloader.yml&#39;,
+  &#39;./include/optimizer.yml&#39;,
+  &#39;./include/rtdetrv2_r50vd.yml&#39;,
+]
+
+output_dir: ./output/rtdetrv2_r50vd_6x_coco
+
+optimizer:
+  type: AdamW
+  params: 
+    - 
+      params: &#39;^(?=.*backbone)(?!.*norm).*$&#39;
+      lr: 0.00001
+    - 
+      params: &#39;^(?=.*(?:encoder|decoder))(?=.*(?:norm|bn)).*$&#39;
+      weight_decay: 0.
+
+  lr: 0.0001
+  betas: [0.9, 0.999]
+  weight_decay: 0.0001
+</code></pre>
+<p><img src="https://i.imgur.com/GrMrMuC.jpeg" alt="比對圖1"></p>
+<p><img src="https://i.imgur.com/E7RaTBt.png" alt="比對圖2"></p>
+<p><img src="https://i.imgur.com/RpMGogh.jpeg" alt="比對圖3"></p>
+<p>影片的部分local上在呈現</p>
+<p>接者是模型搭載速率檢測,目前想法是先從物件偵測模型上偵測此物件並在做物件移動時<code>單位:禎</code><br>移動幅度並計算整體的速率檢測</p>
+<p>以下副影像</p>
+<!--以下連結用本地端-->
+
+<p>最後附註一下我們預想的現實測試地點</p>
+<p><img src="https://i.imgur.com/uWY5VYF.jpeg" alt="台中市資料01"><br><img src="https://i.imgur.com/sMl9YmB.png" alt="台中市資料02"></p>
+<h1 id="2-資料配置"><a href="#2-資料配置" class="headerlink" title="2.資料配置"></a>2.資料配置</h1><p>以下附圖</p>
+<p><img src="https://i.imgur.com/5cAySFA.png" alt="圖1"></p>
+<p><img src="https://i.imgur.com/m0IPFbT.png" alt="圖2"></p>
+<h1 id="3-目前遇到問題"><a href="#3-目前遇到問題" class="headerlink" title="3.目前遇到問題"></a>3.目前遇到問題</h1><ol>
+<li><p>速率部分會跳跳的</p>
+</li>
+<li><p>我的C槽她不知不覺給他弄爆了,不小心把專案放在C槽了QAQ,後續我會把專案儲存在E槽的</p>
+</li>
+</ol>
+<p><img src="https://i.imgur.com/se902FB.png" alt="之後放在資料區域"></p>
+<h1 id="4-下周進度"><a href="#4-下周進度" class="headerlink" title="4.下周進度"></a>4.下周進度</h1><ol>
+<li><p>道路面積計算(影像)</p>
+</li>
+<li><p>修正速率運算邏輯</p>
+</li>
+<li><p>YOLO部份接上軌跡追蹤</p>
+</li>
+</ol>
+
     </div>
     
     
