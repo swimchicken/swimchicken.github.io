@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>國科會week1 | S.C</title>
+        <title>國科會Week3 | S.C</title>
         <meta name="author" content="swimchicken" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
@@ -152,14 +152,14 @@
                 <div id="main" v-show="!loading">
                     <div class="article">
     <div>
-        <h1>國科會week1</h1>
+        <h1>國科會Week3</h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <i class="fa-solid fa-calendar fa-fw"></i>
             </span>
-            2024/9/18
+            2024/10/20
         </span>
         
         <span class="category">
@@ -179,22 +179,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7/" style="color: #00bcd4">人工智慧</a>
+                <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7/" style="color: #00a596">人工智慧</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E7%89%A9%E4%BB%B6%E5%81%B5%E6%B8%AC/" style="color: #03a9f4">物件偵測</a>
+                <a href="/tags/%E7%89%A9%E4%BB%B6%E5%81%B5%E6%B8%AC/" style="color: #00bcd4">物件偵測</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E8%BB%8C%E8%B7%A1%E8%BF%BD%E8%B9%A4/" style="color: #ffa2c4">軌跡追蹤</a>
+                <a href="/tags/%E8%BB%8C%E8%B7%A1%E8%BF%BD%E8%B9%A4/" style="color: #03a9f4">軌跡追蹤</a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BA%A4%E9%80%9A%E7%B3%BB%E7%B5%B1/" style="color: #03a9f4">交通系統</a>
+                <a href="/tags/%E4%BA%A4%E9%80%9A%E7%B3%BB%E7%B5%B1/" style="color: #ff7d73">交通系統</a>
             </span>
             
         </span>
@@ -202,83 +202,11 @@
     </div>
     
     <div class="content" v-pre>
-        <p>本次主要記錄低薪勞工的第一禮拜內容,這邊感謝<a target="_blank" rel="noopener" href="https://github.com/coolmark12">小夥伴</a>幫助以及<a href="mailto:kiwiw.a.l20021221@gmail.com">師傅</a>的精美excel贊助</p>
+        <p>本次主要記錄低薪勞工的第二禮拜內容,這邊感謝<a target="_blank" rel="noopener" href="https://github.com/coolmark12">小夥伴</a>幫助以及<a href="mailto:kiwiw.a.l20021221@gmail.com">師傅</a>的精美excel贊助</p>
 <span id="more"></span>
 
-<h1 id="1-紅綠燈配置"><a href="#1-紅綠燈配置" class="headerlink" title="1.紅綠燈配置"></a>1.紅綠燈配置</h1><p>首先依照台灣交通局規定,我們分成<code>紅</code>,<code>黃</code>,<code>綠</code>燈.<br>其中我們可以依序說明時間配置</p>
-<ul>
-<li><strong>黃燈</strong></li>
-</ul>
-<p>根據黃燈時間上,依照當前路段的速限或是當前路段的車輛平均車速去做判斷.</p>
-<p><img src="https://i.imgur.com/FgMaWys.png" alt="黃燈判斷"></p>
-<ul>
-<li><strong>紅燈</strong></li>
-</ul>
-<p>根據紅燈時間,每個城市的方式不同,其中都是以小時為單位去換算,並且大多數都是以車流方式以一小時為單位去做調整.</p>
-<pre><code class="c">float Q = N / T;
-</code></pre>
-<p>Q &#x3D;&gt; 車輛&#x2F;hr<br>N &#x3D;&gt; 單位時間內車子總數<br>T &#x3D;&gt; 觀測時間</p>
-<p>其中在台灣中山大學資工研究所的一篇論文中,他們採用的是以高雄市的<a target="_blank" rel="noopener" href="https://www.tbkc.gov.tw/upload/WebGroupList/97/0f07442a-46f6-453b-883c-125c5f6797ea/AllFiles/109%E5%B9%B45%E6%9C%88%E5%88%86%E6%9E%90%E7%B6%B2%E7%AB%99%E7%94%A8.pdf">當月平均車流量</a>為主去做分析.</p>
-<ul>
-<li><strong>綠燈</strong></li>
-</ul>
-<p>根據綠燈時間,每個路段都會以當前時段分成<code>尖峰時段</code>以及<code>非尖峰時段</code>,例如下圖.</p>
-<p><img src="https://i.imgur.com/eiEi5Wh.png" alt="綠燈判斷"></p>
-<p><img src="https://i.imgur.com/Cg8uHGw.png" alt="分級表"></p>
-<ul>
-<li><strong>全紅燈</strong></li>
-</ul>
-<p>全紅燈是一種針對行人的方式,多半是那種夜市或是行人眾多的鬧區才會有這種全紅燈設計<br>通常全紅燈的設計時數都不固定,交通部也沒有一定的規定.</p>
-<h1 id="2-紅綠燈時相-Phase-圖"><a href="#2-紅綠燈時相-Phase-圖" class="headerlink" title="2.紅綠燈時相(Phase)圖"></a>2.紅綠燈時相(Phase)圖</h1><p>了解完紅綠燈的時間設定,我們還需要了解紅綠燈本身的週期排序,我只針對幾個部分講</p>
-<ul>
-<li><strong>長短週期</strong></li>
-</ul>
-<p>在紅綠燈的週期排序上,我們有針對相對應的情況所應負的方式,如下圖</p>
-<p><img src="https://i.imgur.com/jhepHWf.png" alt="週期"></p>
-<ul>
-<li><strong>路網</strong></li>
-</ul>
-<p>在路網上,有幾種呈現方式,我們主要會依照<code>SUMO</code>的軟體(有python接口),並且台灣交通部路網也是通過這軟體進行模擬</p>
-<p><img src="https://miro.medium.com/v2/resize:fit:750/format:webp/1*07Xb_qcUfARZEb_cpraBJQ.png" alt="路網"></p>
-<p>其中簡單示意圖如下</p>
-<p><img src="https://i.imgur.com/Xb8Dylc.png" alt="簡易示意圖路網"></p>
-<ul>
-<li><strong>路網+時相圖</strong></li>
-</ul>
-<p>最後總結一下,我們到底需要預測啥,在物件偵測結果出來後,經過一部分小型的運算後,我們希望能呈現或是讓電腦讀取到的是<br>針對當前路口的時相圖,還記得前面所述,時相的意思是一周期的紅黃綠,以下我附上其他論文上交通物件偵測(台灣)時相圖設計.</p>
-<p><img src="https://i.imgur.com/sUjkPL2.png" alt="時相圖"></p>
-<h1 id="3-物件偵測"><a href="#3-物件偵測" class="headerlink" title="3.物件偵測"></a>3.物件偵測</h1><ul>
-<li><strong>dataset</strong></li>
-</ul>
-<p>在資料上我們重新把原本的資料抓取出來</p>
-<p><img src="https://i.imgur.com/CwZ1wEZ.png" alt="雲端示意圖"></p>
-<p>並且我也重新整理並更新了所有檔案上文件</p>
-<p><img src="https://i.imgur.com/vB78Wwj.png" alt="update"></p>
-<p>此外另外找了幾個比較有趣的測試cctv環境<br>之前因為台北市大多數都呈現ccctv故障</p>
-<p><img src="https://i.imgur.com/h07Dbb8.jpeg" alt="故障畫面"></p>
-<p><img src="https://i.imgur.com/Zc0djhj.png" alt="市府西南"></p>
-<p><img src="https://i.imgur.com/3UfopDN.png" alt="市府西北"></p>
-<p>但發生幾個問題,其中包含我那時候做整理的時候忘記把影像作地址分類,所以目前我只能用手工的方式去看<br>地址在那.</p>
-<p><img src="https://i.imgur.com/bLCqMzo.png" alt="圖像內容"></p>
-<ul>
-<li><strong>yolov8</strong></li>
-</ul>
-<p>在這裡目前我先人工標記200張預測用的圖像,並呈現出目前yolov8的成效,當然如果偏爛的話可能是我人工標記<br>標到後面我的魂飛走了</p>
-<p><img src="https://i.imgur.com/GRC86kS.png" alt="人工標記"></p>
-<p>後續我會另外再選擇自動標記看看,因為我想先確認測試場所那種比較適合.<br>再去確認使用工人智慧或是自動標記.</p>
-<ul>
-<li><strong>RT-DETR</strong></li>
-</ul>
-<p>另外補充一點,去年在寫的時候並沒有github專案,所以那時候我大概都比較看論文,<br>所以今年原本打算是手刻,但今年8月末的時候他有釋出開源專案,並且釋出了v2版本<br>所以wawa.</p>
-<p><img src="https://i.imgur.com/uZdrq9L.png" alt="github"></p>
-<h1 id="4-問題"><a href="#4-問題" class="headerlink" title="4.問題"></a>4.問題</h1><ol>
-<li>車距問題</li>
-</ol>
-<p>在許多論文上,都沒有特別參考使用者跟紅綠燈之間如何感知,這其中也牽扯到了攝影機涵蓋道路範圍.<br>我認為這是值得參考的數據,也就是基於道路密度及車數量之間的變化</p>
-<ol start="2">
-<li>預測數據集問題</li>
-</ol>
-<h1 id="5-補充問題"><a href="#5-補充問題" class="headerlink" title="5.補充問題"></a>5.補充問題</h1><p>1.RT-DRTS是否能夠在移動中物體上呈現出正線像,並且時間複雜度上是否能合理.</p>
+
+
 
     </div>
     

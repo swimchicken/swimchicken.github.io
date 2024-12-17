@@ -194,7 +194,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/%E4%BA%A4%E9%80%9A%E7%B3%BB%E7%B5%B1/" style="color: #ff7d73">交通系統</a>
+                <a href="/tags/%E4%BA%A4%E9%80%9A%E7%B3%BB%E7%B5%B1/" style="color: #ffa2c4">交通系統</a>
             </span>
             
         </span>
@@ -204,8 +204,6 @@
     <div class="content" v-pre>
         <p>本次主要記錄低薪勞工的第二禮拜內容,這邊感謝<a target="_blank" rel="noopener" href="https://github.com/coolmark12">小夥伴</a>幫助以及<a href="mailto:kiwiw.a.l20021221@gmail.com">師傅</a>的精美excel贊助</p>
 <span id="more"></span>
-
-
 
 <h1 id="1-模型目前進度"><a href="#1-模型目前進度" class="headerlink" title="1.模型目前進度"></a>1.模型目前進度</h1><p>首先我們先採用rt-detr的原生模型去做使用,其中配置檔<code>RT-DETRv2-M_dsp.yml</code>以及模型資料集<code>coco_dataset</code>如下</p>
 <pre><code class="yml">
@@ -257,7 +255,6 @@ train_dataloader:
 <p>影像資料庫是採用經典<code>2017_COCO_dataset</code>,並且附上他在COCO資料集中與YOLO的比較</p>
 <p><a target="_blank" rel="noopener" href="https://cocodataset.org/#home">coco2017資料集</a></p>
 <p><img src="https://i.imgur.com/ERKpFWm.png" alt="模型比對"></p>
-<p>最後也附上幾張台中市的cctv圖像跟台北市的cctv街景影片比較</p>
 <p>最後在我們資料訓練當中所使用的配置檔<code>rtdetrv2_r50vd_6x_coco.yml</code>以及模型整個訓練的過程</p>
 <p><strong>附註-此模型訓練目前採用台中市為主,後面會陸續更換成我們設計內容</strong></p>
 <pre><code class="yml">__include__: [
@@ -284,16 +281,22 @@ optimizer:
   betas: [0.9, 0.999]
   weight_decay: 0.0001
 </code></pre>
+<p><img src="https://i.imgur.com/2uzwp2N.png" alt="模型訓練0"></p>
+<p><img src="https://i.imgur.com/7DD4rxj.png" alt="模型訓練1"></p>
+<p><img src="https://i.imgur.com/vzJpWEN.png" alt="模型訓練2"></p>
+<p>也附上幾張台中市的cctv圖像跟台北市的cctv街景影片模型比較</p>
 <p><img src="https://i.imgur.com/GrMrMuC.jpeg" alt="比對圖1"></p>
-<p><img src="https://i.imgur.com/E7RaTBt.png" alt="比對圖2"></p>
-<p><img src="https://i.imgur.com/RpMGogh.jpeg" alt="比對圖3"></p>
+<p><img src="https://i.imgur.com/4HAQqNT.png" alt="比對圖2"></p>
+<p><img src="https://i.imgur.com/E7RaTBt.png" alt="比對圖3"></p>
+<p><img src="https://i.imgur.com/gV7BjdW.png" alt="比對圖4"></p>
 <p>影片的部分local上在呈現</p>
 <p>接者是模型搭載速率檢測,目前想法是先從物件偵測模型上偵測此物件並在做物件移動時<code>單位:禎</code><br>移動幅度並計算整體的速率檢測</p>
 <p>以下副影像</p>
 <!--以下連結用本地端-->
 
-<p>最後附註一下我們預想的現實測試地點</p>
-<p><img src="https://i.imgur.com/uWY5VYF.jpeg" alt="台中市資料01"><br><img src="https://i.imgur.com/sMl9YmB.png" alt="台中市資料02"></p>
+<p>最後附註一下我們預想的現實台中測試地點</p>
+<p><img src="https://i.imgur.com/uWY5VYF.jpeg" alt="台中市資料01"></p>
+<p><img src="https://i.imgur.com/hHpLh8N.png" alt="台中市資料02"></p>
 <h1 id="2-資料配置"><a href="#2-資料配置" class="headerlink" title="2.資料配置"></a>2.資料配置</h1><p>以下附圖</p>
 <p><img src="https://i.imgur.com/5cAySFA.png" alt="圖1"></p>
 <p><img src="https://i.imgur.com/m0IPFbT.png" alt="圖2"></p>
